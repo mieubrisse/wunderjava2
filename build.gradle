@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:${annotationsProcessorVersion}"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: "net.ltgt.apt"
+apply plugin: "net.ltgt.apt-idea"
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+/*
+idea {
+    module {
+        apt {
+            addGeneratedSourceDirs = true
+        }
+    }
+}
+*/
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    // The production code uses the SLF4J logging API at compile time
+    compile 'org.slf4j:slf4j-api:1.7.18'
+
+    compile "joda-time:joda-time:${jodaTimeVersion}"
+
+    compileOnly "org.immutables:value:${immutablesVersion}:annotations" // annotation processing
+    apt "org.immutables:value:${immutablesVersion}" // annotation processing
+
+    compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    compile "org.glassfish.jersey.core:jersey-client:${jerseyVersion}"
+
+    // Declare the dependency for your favourite test framework you want to use in your tests.
+    // TestNG is also supported by the Gradle Test task. Just change the
+    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+    // 'test.useTestNG()' to your build script.
+    testCompile 'junit:junit:4.12'
+}
